@@ -4,8 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/models/login_model.dart';
-import 'package:resturent_app/pages/admin/admin_home.dart';
-import 'package:resturent_app/pages/users/cart_screen.dart';
+import 'package:resturent_app/pages/admin/dashboard.dart';
 import 'package:resturent_app/pages/users/home.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -52,7 +51,7 @@ class LoginProvider extends ChangeNotifier {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => AdminHomeScreen(),
+              builder: (_) => Dashboard(),
             ),
           );
           ScaffoldMessenger.of(context).showSnackBar(

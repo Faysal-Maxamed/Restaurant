@@ -8,6 +8,10 @@ import 'package:http/http.dart' as http;
 class UsersProvider extends ChangeNotifier {
   List<LoginModel> users = [];
 
+
+// fuctionkaan wuxuuu nooqabana inuu noosoo aqriyo dhaman users/admin
+
+
   Future<List<LoginModel>> getUsers() async {
     var response = await http.get(Uri.parse(endpoint + "users/"));
     if (response.statusCode == 200) {

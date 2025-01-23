@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/cart_provider.dart';
-import 'package:resturent_app/controller/food_product_provider.dart';
+import 'package:resturent_app/controller/food_provider.dart';
 import 'package:resturent_app/models/food_product_pmodel.dart';
 import 'package:resturent_app/pages/users/details_page.dart';
 
@@ -51,7 +51,7 @@ class BreakfastPageScreen extends StatelessWidget {
               ),
               Expanded(
                 child: FutureBuilder<List<FoodProductModel>>(
-                  future: context.read<FoodProductProvider>().getfoods(),
+                  future: context.read<FoodProvider>().getfoods(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return GridView.builder(

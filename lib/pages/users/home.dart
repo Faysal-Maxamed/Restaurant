@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/login_provider.dart';
-import 'package:resturent_app/pages/users/food_page.dart';
+import 'package:resturent_app/pages/users/userfood_page.dart';
 import 'package:resturent_app/pages/users/menu_screen.dart';
 import 'package:resturent_app/pages/users/pidzza_page.dart';
 import 'package:resturent_app/widgets/discount_widget.dart';

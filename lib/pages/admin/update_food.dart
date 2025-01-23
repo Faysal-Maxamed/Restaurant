@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
-import 'package:resturent_app/controller/update_food_provider.dart';
+import 'package:resturent_app/controller/food_provider.dart';
 
 class UpdateFood extends StatelessWidget {
   UpdateFood({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UpdateFoodProvider>(builder: (context, UpdateFood, _) {
+    return Consumer<FoodProvider>(builder: (context, FoodProvider, _) {
       return Scaffold(
         backgroundColor: backgrounclr,
         appBar: AppBar(
@@ -23,7 +23,7 @@ class UpdateFood extends StatelessWidget {
               child: Column(
                 children: [
                   TextField(
-                    onChanged: (value) => UpdateFood.updateimage(value),
+                    onChanged: (value) => FoodProvider.getimage(value),
                     decoration: InputDecoration(
                       hintText: "enter Image",
                       border: OutlineInputBorder(),
@@ -31,7 +31,7 @@ class UpdateFood extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   TextField(
-                    onChanged: (value) => UpdateFood.updatename(value),
+                    onChanged: (value) => FoodProvider.getname(value),
                     decoration: InputDecoration(
                       hintText: "Enter Name of product",
                       border: OutlineInputBorder(),
@@ -39,7 +39,7 @@ class UpdateFood extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   TextField(
-                    onChanged: (value) => UpdateFood.updatecategory(value),
+                    onChanged: (value) => FoodProvider.getcategory(value),
                     decoration: InputDecoration(
                       hintText: "Category Name",
                       border: OutlineInputBorder(),
@@ -50,7 +50,7 @@ class UpdateFood extends StatelessWidget {
                     onChanged: (value) {
                       int? intvalue = int.tryParse(value);
                       if (intvalue != null) {
-                        UpdateFood.updateprice(intvalue);
+                        FoodProvider.getprice(intvalue);
                       }
                     },
                     decoration: InputDecoration(
@@ -63,7 +63,7 @@ class UpdateFood extends StatelessWidget {
                     onChanged: (value) {
                       int? intvalue = int.tryParse(value);
                       if (intvalue != null) {
-                        UpdateFood.updateoldPrice(intvalue);
+                        FoodProvider.getoldPrice(intvalue);
                       }
                     },
                     decoration: InputDecoration(
@@ -76,7 +76,7 @@ class UpdateFood extends StatelessWidget {
                     onChanged: (value) {
                       int? intvalue = int.tryParse(value);
                       if (intvalue != null) {
-                        UpdateFood.updatecountInStock(intvalue);
+                        FoodProvider.getcountInStock(intvalue);
                       }
                     },
                     decoration: InputDecoration(
@@ -86,7 +86,7 @@ class UpdateFood extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   TextField(
-                    onChanged: (value) => UpdateFood.updatedescription(value),
+                    onChanged: (value) => FoodProvider.getdescription(value),
                     decoration: InputDecoration(
                       hintText: "Description",
                       border: OutlineInputBorder(),
@@ -94,7 +94,7 @@ class UpdateFood extends StatelessWidget {
                   ),
                   SizedBox(height: 40),
                   ElevatedButton(
-                    onPressed: () => UpdateFood.update(context),
+                    onPressed: () => FoodProvider.update(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: btnclr,
                       shape: RoundedRectangleBorder(

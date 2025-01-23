@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
-import 'package:resturent_app/controller/add_food_provider.dart';
+import 'package:resturent_app/controller/food_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Addfood extends StatelessWidget {
@@ -14,8 +14,8 @@ class Addfood extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var addfoodprovider = context.read<AddFoodProvider>();
-    return Consumer<AddFoodProvider>(builder: (context, addfood, _) {
+    var addfoodprovider = context.read<FoodProvider>();
+    return Consumer<FoodProvider>(builder: (context, addfood, _) {
       return ModalProgressHUD(
         inAsyncCall: addfood.isloading,
         child: Scaffold(
