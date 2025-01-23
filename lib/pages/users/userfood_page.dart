@@ -140,21 +140,17 @@ class BreakfastPageScreen extends StatelessWidget {
                                             ),
                                             Spacer(),
                                             IconButton(
-                                              onPressed: () {
-                                                FoodProductModel food =
-                                                    FoodProductModel(
-                                                  name: "feysal",
-                                                  category: "23",
-                                                  countInStock: 34,
-                                                  price: 22,
-                                                  oldPrice: 12,
-                                                  description: "hhhh",
-                                                  image: "images/1.png",
-                                                );
-                                                context
-                                                    .read<CartProvider>()
-                                                    .addItem(food);
-                                              },
+                                              onPressed: () => context
+                                                  .read<CartProvider>()
+                                                  .addItem(
+                                                      snapshot!
+                                                          .data![index].name,
+                                                      snapshot!
+                                                          .data![index].name,
+                                                      snapshot!
+                                                          .data![index].price,
+                                                      snapshot!
+                                                          .data![index].image),
                                               style: TextButton.styleFrom(
                                                 backgroundColor: btnclr,
                                                 shape: RoundedRectangleBorder(
