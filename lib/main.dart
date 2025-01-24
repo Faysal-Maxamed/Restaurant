@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/food_provider.dart';
 import 'package:resturent_app/controller/cart_provider.dart';
+import 'package:resturent_app/controller/fruit_provider.dart';
 import 'package:resturent_app/controller/login_provider.dart';
 import 'package:resturent_app/controller/register_provider.dart';
 import 'package:resturent_app/controller/users_provider.dart';
@@ -16,6 +17,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_)=>FruitProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => FoodProvider()),
         ChangeNotifierProvider(create: (_) => UsersProvider()),

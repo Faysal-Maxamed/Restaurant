@@ -5,7 +5,7 @@ import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/login_provider.dart';
 import 'package:resturent_app/pages/users/userfood_page.dart';
 import 'package:resturent_app/pages/users/menu_screen.dart';
-import 'package:resturent_app/pages/users/pidzza_page.dart';
+import 'package:resturent_app/pages/users/user_fruits.dart';
 import 'package:resturent_app/widgets/discount_widget.dart';
 import 'package:resturent_app/widgets/home_category_widget.dart';
 
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     HomeCategoryWidget(
                       nmetitle: "Pidzza",
-                      navpage: PidzzaPageScreen(),
+                      navpage: UserFruits(),
                     ),
                     SizedBox(
                       width: 10,
