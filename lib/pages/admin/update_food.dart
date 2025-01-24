@@ -23,7 +23,7 @@ class UpdateFood extends StatelessWidget {
               child: Column(
                 children: [
                   TextField(
-                    onChanged: (value) => FoodProvider.getimage(value),
+                    onChanged: (value) => FoodProvider.getImage,
                     decoration: InputDecoration(
                       hintText: "enter Image",
                       border: OutlineInputBorder(),

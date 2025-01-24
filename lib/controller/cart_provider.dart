@@ -5,6 +5,9 @@ class CartProvider extends ChangeNotifier {
   final List<CartItem> _items = [];
   List<CartItem> get items => _items;
 
+  int _counter = 0;
+  int get Counter => _counter;
+
   double get totalAmount {
     return _items.fold(0, (sum, item) => sum + (item.price * item.quantity));
   }
@@ -27,6 +30,18 @@ class CartProvider extends ChangeNotifier {
 
   void clearCart() {
     _items.clear();
+    notifyListeners();
+  }
+
+  Increment() {
+    _counter++;
+    notifyListeners();
+  }
+
+  Decrement() {
+    if (Counter > 0) {
+      _counter--;
+    }
     notifyListeners();
   }
 }

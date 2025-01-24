@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/models/food_product_pmodel.dart';
 import 'package:resturent_app/pages/admin/adminfoodpage.dart';
@@ -8,7 +10,7 @@ import 'package:resturent_app/pages/admin/adminfoodpage.dart';
 class FoodProvider extends ChangeNotifier {
   String? _id;
   String? _name;
-  String? _image;
+  File? _image;
   String? _category;
   String? _description;
   int? _price;
@@ -19,7 +21,7 @@ class FoodProvider extends ChangeNotifier {
 
   String get id => _id!;
   String get name => _name!;
-  String get image => _image!;
+  File get image => _image!;
   String get Category => _category!;
   String get description => _description!;
   int get price => _price!;
@@ -35,10 +37,6 @@ class FoodProvider extends ChangeNotifier {
   getname(String name) {
     _name = name;
     notifyListeners();
-  }
-
-  getimage(String image) {
-    _image = image;
   }
 
   getcategory(String Category) {
@@ -66,8 +64,18 @@ class FoodProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //  kan waa fuctionka noogu soo daraayo product  cusub
+  void getImage() async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (pickedImage != null) {
+      _image = File(pickedImage!.path);
+      notifyListeners();
+    } else {
+      Text("no image selected");
+    }
+  }
 
+  //  kan waa fuctionka noogu soo daraayo product  cusub
 
   addfood(BuildContext context) async {
     var date = <String, dynamic>{
@@ -96,7 +104,6 @@ class FoodProvider extends ChangeNotifier {
 
   //  kan waa fuctionka nooqabanaayo  inaa kasoo aqrisano backend amd  database
 
-
   Future<List<FoodProductModel>> getfoods() async {
     List<FoodProductModel> ListFoods = [];
     try {
@@ -117,7 +124,6 @@ class FoodProvider extends ChangeNotifier {
   }
 
 //  kan waa fuctionka nooqabanaayo  inaa xogta badalno ama update kusiibino
-
 
   update(BuildContext context) async {
     var date = <String, dynamic>{
@@ -151,8 +157,7 @@ class FoodProvider extends ChangeNotifier {
     }
   }
 
-  //  kan waa fuctionka nooqabanaayo inaa product delte ku sameeno 
-
+  //  kan waa fuctionka nooqabanaayo inaa product delte ku sameeno
 
   delte() async {
     var response = await http.delete(

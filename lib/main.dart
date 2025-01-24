@@ -6,7 +6,6 @@ import 'package:resturent_app/controller/cart_provider.dart';
 import 'package:resturent_app/controller/login_provider.dart';
 import 'package:resturent_app/controller/register_provider.dart';
 import 'package:resturent_app/controller/users_provider.dart';
-import 'package:resturent_app/pages/admin/dashboard.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/pages/users/botom_navigation.dart';
 

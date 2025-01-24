@@ -1,17 +1,18 @@
-import 'dart:ffi';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/food_provider.dart';
-import 'package:image_picker/image_picker.dart';
 
-class Addfood extends StatelessWidget {
+class Addfood extends StatefulWidget {
   Addfood({super.key});
 
+  @override
+  State<Addfood> createState() => _AddfoodState();
+}
+
+class _AddfoodState extends State<Addfood> {
   @override
   Widget build(BuildContext context) {
     var addfoodprovider = context.read<FoodProvider>();
@@ -30,11 +31,23 @@ class Addfood extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    TextField(
-                      onChanged: (value) => addfoodprovider.getimage(value),
-                      decoration: InputDecoration(
-                        hintText: "enter Image",
-                        border: OutlineInputBorder(),
+                    GestureDetector(
+                      onTap: addfoodprovider.getImage,
+                      child: Container(
+                        height: 150,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.black,
+                            )),
+                        child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.image),
+                                  Text("Upload Your Image"),
+                                ],
+                              ),
                       ),
                     ),
                     SizedBox(height: 15),
