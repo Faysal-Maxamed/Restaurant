@@ -13,13 +13,12 @@ class CartProvider extends ChangeNotifier {
   }
 
   void addItem(String id, String name, double price, String image) {
-    _items.add(CartItem(
-      id: id,
-      name: name,
-      price: price,
-      image: image,
-    ));
-
+    final existingIndex = _items.indexWhere((cartItem) => cartItem.id == id);
+    if (existingIndex != -1) {
+      _items.removeAt(existingIndex);
+    } else {
+      _items.add(CartItem(id: id, name: name, price: price, image: image));
+    }
     notifyListeners();
   }
 

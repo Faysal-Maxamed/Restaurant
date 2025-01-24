@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/cart_provider.dart';
-import 'package:resturent_app/controller/food_provider.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -22,7 +21,7 @@ class CartScreen extends StatelessWidget {
               IconButton(
                 onPressed: () {},
                 icon: Badge(
-                  label: Text("1"),
+                  label: Text(context.watch<CartProvider>().Counter.toString()),
                   child: Icon(Icons.shopping_cart),
                 ),
               )
@@ -142,20 +141,53 @@ class CartScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Product",
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            Row(
+                              children: [
+                                Text(
+                                  "Product",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Spacer(),
+                                Text(
+                                  context
+                                      .watch<CartProvider>()
+                                      .Counter
+                                      .toString(),
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            Text(
-                              "Price",
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            Row(
+                              children: [
+                                Text(
+                                  "Price",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Spacer(),
+                              ],
                             ),
-                            Text(
-                              "Total",
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            Row(
+                              children: [
+                                Text(
+                                  "Total",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Spacer(),
+                                Text(
+                                  "\$ ${cart.totalAmount.toInt() * cart.Counter.toInt()}",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             )
                           ],
                         ),
