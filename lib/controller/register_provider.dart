@@ -18,7 +18,7 @@ class RegisterProvider extends ChangeNotifier {
   String get password => _password!;
   String get phone => _phone!;
   String get address => _address!;
-  bool get isadmin => _isAdmin!;
+  bool get isadmin => _isAdmin;
 
   void getname(String name) {
     _name = name;

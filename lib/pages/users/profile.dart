@@ -62,35 +62,35 @@ class ProfileScreen extends StatelessWidget {
                 Spacer(),
                 RowWidget(
                   tit1: "Your Name",
-                  tit2: login!.user!.name,
+                  tit2: login.user!.name,
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 RowWidget(
                   tit1: "Your Email",
-                  tit2: login!.user!.email,
+                  tit2: login.user!.email,
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 RowWidget(
                   tit1: "Your Address",
-                  tit2: login!.user!.phone.toString(),
+                  tit2: login.user!.phone.toString(),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 RowWidget(
                   tit1: "Your Role",
-                  tit2: login!.user!.isAdmin!.toString(),
+                  tit2: login.user!.isAdmin!.toString(),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 RowWidget(
                   tit1: "Your Phone",
-                  tit2: login!.user!.phone.toString(),
+                  tit2: login.user!.phone.toString(),
                 ),
                 Spacer(),
                 ElevatedButton(

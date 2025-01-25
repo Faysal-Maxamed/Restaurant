@@ -73,7 +73,7 @@ class BreakfastPageScreen extends StatelessWidget {
                                         MaterialPageRoute(
                                           builder: (_) => DetailsPage(
                                               imageurl:
-                                                  snapshot.data![index]!.image,
+                                                  snapshot.data![index].image,
                                               title: snapshot.data![index].name,
                                               discription:
                                                   snapshot.data![index].description,
@@ -145,13 +145,13 @@ class BreakfastPageScreen extends StatelessWidget {
                                                   onPressed: () => context
                                                       .read<CartProvider>()
                                                       .addItem(
-                                                          snapshot!
+                                                          snapshot
                                                               .data![index].name,
-                                                          snapshot!
+                                                          snapshot
                                                               .data![index].name,
-                                                          snapshot!
+                                                          snapshot
                                                               .data![index].price,
-                                                          snapshot!
+                                                          snapshot
                                                               .data![index].image,),
                                                   style: TextButton.styleFrom(
                                                     backgroundColor: btnclr,

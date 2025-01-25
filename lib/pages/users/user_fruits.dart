@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
+import 'package:resturent_app/controller/cart_provider.dart';
 import 'package:resturent_app/controller/fruit_provider.dart';
 import 'package:resturent_app/pages/users/details_page.dart';
 
@@ -13,69 +13,72 @@ class UserFruits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<FruitProvider>(builder: (context, fruits, _) {
-      return ModalProgressHUD(
-        inAsyncCall: fruits.isloading,
-        child: Scaffold(
-          backgroundColor: backgrounclr,
-          body: SafeArea(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Container(
-                        height: 45,
-                        width: 45,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          color: backgrounclr,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.15),
-                              spreadRadius: 4,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            )
-                          ],
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: btnclr,
-                            size: 20,
-                          ),
+      final cart = context.read<CartProvider>().items;
+      return Scaffold(
+        backgroundColor: backgrounclr,
+        body: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      height: 45,
+                      width: 45,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        color: backgrounclr,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            spreadRadius: 4,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          )
+                        ],
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: btnclr,
+                          size: 20,
                         ),
                       ),
                     ),
-                    Spacer(),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
+                  ),
+                  Spacer(),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Badge(
+                      label: Text(cart.length.toString()),
+                      child: Icon(
                         LineIcons.shoppingBag,
                         size: 30,
                         color: btnclr,
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Order fresh mixed Pizza",
-                  style: GoogleFonts.inter(fontSize: 18),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: FutureBuilder(
-                      future: fruits.getfruits(),
-                      builder: (context, snapshot) {
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Order fresh mixed Fruits",
+                style: GoogleFonts.inter(fontSize: 18),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: FutureBuilder(
+                    future: fruits.getfruits(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
                         return GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
@@ -84,7 +87,7 @@ class UserFruits extends StatelessWidget {
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 20,
                             ),
-                            itemCount: snapshot!.data!.length,
+                            itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () => Navigator.push(
@@ -121,7 +124,7 @@ class UserFruits extends StatelessWidget {
                                               topLeft: Radius.circular(10),
                                               topRight: Radius.circular(10)),
                                           child: Image.network(
-                                            snapshot!.data![index].image!,
+                                            snapshot.data![index].image!,
                                             width: 80,
                                           ),
                                         ),
@@ -131,14 +134,14 @@ class UserFruits extends StatelessWidget {
                                           child: Column(
                                             children: [
                                               Text(
-                                                snapshot!.data[index].name,
+                                                snapshot.data[index].name,
                                                 style: GoogleFonts.poppins(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                               Text(
-                                                snapshot!
+                                                snapshot
                                                     .data![index].description,
                                                 style: GoogleFonts.roboto(
                                                     fontSize: 11,
@@ -148,15 +151,31 @@ class UserFruits extends StatelessWidget {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    snapshot!
-                                                        .data![index].price!
+                                                    snapshot.data![index].price!
                                                         .toString(),
                                                     style: GoogleFonts.dmSans(
                                                         color: btnclr),
                                                   ),
                                                   Spacer(),
                                                   IconButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      context
+                                                          .read<CartProvider>()
+                                                          .addItem(
+                                                            snapshot
+                                                                .data![index]
+                                                                .name,
+                                                            snapshot
+                                                                .data![index]
+                                                                .name,
+                                                            snapshot
+                                                                .data![index]
+                                                                .price,
+                                                            snapshot
+                                                                .data![index]
+                                                                .image,
+                                                          );
+                                                    },
                                                     style: TextButton.styleFrom(
                                                       backgroundColor: btnclr,
                                                       shape:
@@ -183,12 +202,15 @@ class UserFruits extends StatelessWidget {
                                 ),
                               );
                             });
-                      }),
-                )
-              ],
-            ),
-          )),
-        ),
+                      } else if (snapshot.hasError) {
+                        Text("Xogti waalawaayey");
+                      }
+                      return CircularProgressIndicator();
+                    }),
+              )
+            ],
+          ),
+        )),
       );
     });
   }

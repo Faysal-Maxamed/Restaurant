@@ -11,190 +11,170 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(builder: (context, cart, _) {
       return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              " Cart Page",
-              style: GoogleFonts.poppins(),
+        appBar: AppBar(
+          title: Text(
+            "Cart Page",
+            style: GoogleFonts.poppins(),
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Badge(
+                label: Text(cart.items.length.toString()),
+                child: Icon(Icons.shopping_cart),
+              ),
             ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: Badge(
-                  label: Text(context.watch<CartProvider>().Counter.toString()),
-                  child: Icon(Icons.shopping_cart),
+          ],
+        ),
+        body: cart.items.isEmpty
+            ? Center(
+                child: Text(
+                  "No Cart Available yet",
+                  style: GoogleFonts.rubik(fontSize: 18),
                 ),
               )
-            ],
-          ),
-          body: cart.items.isEmpty
-              ? Center(
-                  child: Text(
-                  "No Cart Availble yet",
-                  style: GoogleFonts.rubik(fontSize: 18),
-                ))
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: ListView.builder(
-                        itemCount: context.read<CartProvider>().items.length,
-                        itemBuilder: (context, index) {
-                          final cart = context.read<CartProvider>();
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
-                            child: Card(
-                                elevation: 10,
-                                color: btnclr,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: ListView.builder(
+                      itemCount: cart.items.length,
+                      itemBuilder: (context, index) {
+                        final item = cart.items[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Card(
+                            elevation: 10,
+                            color: btnclr,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 10,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(70),
+                                          child: Image.asset(
+                                            "images/1.png",
+                                            width: 70,
+                                            height: 70,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 15),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              item.name,
+                                              style: GoogleFonts.poppins(),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              "\$${item.price.toStringAsFixed(2)}",
+                                              style: GoogleFonts.poppins(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
                                     children: [
                                       Row(
                                         children: [
-                                          ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(70),
-                                              child:
-                                                  Image.asset("images/1.png")),
-                                          SizedBox(
-                                            width: 15,
+                                          IconButton(
+                                            onPressed: () =>
+                                                cart.decrement(item.id),
+                                            icon: const Icon(Icons.remove),
                                           ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                cart.items[index].name,
-                                                style: GoogleFonts.poppins(),
-                                              ),
-                                              Text(
-                                                "\$${cart.items[index].price.toString()}",
-                                                style: GoogleFonts.poppins(),
-                                              ),
-                                            ],
+                                          Text(item.quantity.toString()),
+                                          IconButton(
+                                            onPressed: () =>
+                                                cart.increment(item.id),
+                                            icon: const Icon(Icons.add),
                                           ),
                                         ],
                                       ),
-                                      Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              IconButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors.red,
-                                                    foregroundColor:
-                                                        Colors.white),
-                                                onPressed: () =>
-                                                    cart.Decrement(),
-                                                icon: Icon(Icons.remove),
-                                              ),
-                                              Text(context
-                                                  .watch<CartProvider>()
-                                                  .Counter
-                                                  .toString()),
-                                              IconButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.green,
-                                                  foregroundColor: Colors.white,
-                                                ),
-                                                onPressed: () =>
-                                                    cart.Increment(),
-                                                icon: Icon(Icons.add),
-                                              )
-                                            ],
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          cart.removeItem(item.id);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red,
+                                          foregroundColor: Colors.white,
+                                          minimumSize: const Size(60, 30),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
                                           ),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              cart.removeItem(
-                                                  cart.items[index].id);
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.red,
-                                              foregroundColor: Colors.white,
-                                              minimumSize: Size(60, 30),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                            ),
-                                            child: Text("Remove Item"),
-                                          )
-                                        ],
-                                      ),
+                                        ),
+                                        child: const Text("Remove Item"),
+                                      )
                                     ],
                                   ),
-                                )),
-                          );
-                        },
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Text(
+                                "Total Items:",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              const Spacer(),
+                              Text(
+                                cart.items.length.toString(),
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Total Price:",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              const Spacer(),
+                              Text(
+                                "\$${cart.totalAmount.toStringAsFixed(2)}",
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 25),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Product",
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Spacer(),
-                                Text(
-                                  context
-                                      .watch<CartProvider>()
-                                      .Counter
-                                      .toString(),
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "Price",
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Spacer(),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "Total",
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Spacer(),
-                                Text(
-                                  "\$ ${cart.totalAmount.toInt() * cart.Counter.toInt()}",
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ));
+                  )
+                ],
+              ),
+      );
     });
   }
 }

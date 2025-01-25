@@ -94,7 +94,6 @@ class FoodProvider extends ChangeNotifier {
       headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 201) {
-      var decodedate = jsonDecode(response.body);
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => Adminfoodpage()));
     } else {
