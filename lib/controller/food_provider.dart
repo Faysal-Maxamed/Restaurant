@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -15,20 +16,17 @@ class FoodProvider extends ChangeNotifier {
   String? _description;
   int? _price;
   int? _oldPrice;
-  int? _rating;
   int? _countInStock;
   bool isloading = false;
 
-  String get id => _id!;
-  String get name => _name!;
-  File get image => _image!;
-  String get Category => _category!;
-  String get description => _description!;
-  int get price => _price!;
-  int get oldPrice => _oldPrice!;
-  int get rating => _rating!;
-  int get countInStock => _countInStock!;
-
+  String get id => _id ?? '';
+  String get name => _name ?? '';
+  File? get image => _image;
+  String get category => _category ?? '';
+  String get description => _description ?? '';
+  int get price => _price ?? 0;
+  int get oldPrice => _oldPrice ?? 0;
+  int get countInStock => _countInStock ?? 0;
   getid(String id) {
     _id = id;
     notifyListeners();
@@ -65,39 +63,60 @@ class FoodProvider extends ChangeNotifier {
   }
 
   void getImage() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-    if (pickedImage != null) {
-      _image = File(pickedImage!.path);
-      notifyListeners();
-    } else {
-      Text("no image selected");
+    try {
+      var PickImage = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (PickImage != null) {
+        _image = File(PickImage.path);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
   //  kan waa fuctionka noogu soo daraayo product  cusub
 
   addfood(BuildContext context) async {
-    var date = <String, dynamic>{
-      "name": name,
-      "category": Category,
-      "image": image,
-      "description": description,
-      "countInStock": countInStock,
-      "price": price,
-      "oldPrice": oldPrice,
-    };
-    print(date);
-    var response = await http.post(
-      Uri.parse(endpoint + "foodproduct"),
-      body: jsonEncode(date),
-      headers: {"Content-Type": "application/json"},
-    );
-    if (response.statusCode == 201) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => Adminfoodpage()));
-    } else {
-      print("error ocuur");
+    try {
+      String imgurl = '';
+      final cloudinary =
+          CloudinaryPublic('dsqdn5uib', 'ml_default', cache: false);
+      CloudinaryResponse responseurl = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(image!.path,
+            resourceType: CloudinaryResourceType.Image),
+      );
+      imgurl = responseurl.secureUrl;
+
+      if (imgurl.isNotEmpty) {
+        var data = {
+          "name": _name!,
+          "category": _category!,
+          "image": imgurl,
+          "description": _description!,
+          "countInStock": _countInStock!,
+          "price": _price!,
+          "oldPrice": _oldPrice!,
+        };
+        var response = await http.post(
+          Uri.parse(endpoint + "foodproduct"),
+          body: jsonEncode(data),
+          headers: {"Content-Type": "application/json"},
+        );
+
+        if (response.statusCode == 201) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => Adminfoodpage()),
+          );
+          SnackBar(content: Text("product created"));
+        }
+      } else {
+        SnackBar(content: Text("No Image found"));
+      }
+    } catch (e) {
+      print("Err :${e.toString()}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${e.toString()}")),
+      );
     }
   }
 
@@ -127,7 +146,7 @@ class FoodProvider extends ChangeNotifier {
   update(BuildContext context) async {
     var date = <String, dynamic>{
       "name": name,
-      "category": Category,
+      "category": category,
       "image": image,
       "description": description,
       "price": price,

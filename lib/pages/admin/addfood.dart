@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
@@ -31,26 +34,6 @@ class _AddfoodState extends State<Addfood> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    GestureDetector(
-                      onTap: addfoodprovider.getImage,
-                      child: Container(
-                        height: 150,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black,
-                            )),
-                        child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.image),
-                                  Text("Upload Your Image"),
-                                ],
-                              ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
                     TextField(
                       onChanged: (value) => addfoodprovider.getname(value),
                       decoration: InputDecoration(
@@ -67,6 +50,47 @@ class _AddfoodState extends State<Addfood> {
                       ),
                     ),
                     SizedBox(height: 15),
+                    GestureDetector(
+                      onTap: addfood.getImage,
+                      child: addfood.image == null
+                          ? Container(
+                              height: 150,
+                              width: double.infinity,
+                              color: Colors.grey[200],
+                              child: Icon(Icons.add_a_photo, size: 50),
+                            )
+                          : Image.file(
+                              addfood.image!,
+                              height: 150,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                    SizedBox(height: 15),
+                    TextField(
+                      onChanged: (value) =>
+                          addfoodprovider.getdescription(value),
+                      decoration: InputDecoration(
+                        hintText: "Description",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    TextField(
+                      onChanged: (value) {
+                        int? intvalue = int.tryParse(value);
+                        if (intvalue != null) {
+                          addfoodprovider.getcountInStock(intvalue);
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: "CountInStock",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
                     TextField(
                       onChanged: (value) {
                         int? intvalue = int.tryParse(value);
@@ -93,28 +117,7 @@ class _AddfoodState extends State<Addfood> {
                       ),
                     ),
                     SizedBox(height: 15),
-                    TextField(
-                      onChanged: (value) {
-                        int? intvalue = int.tryParse(value);
-                        if (intvalue != null) {
-                          addfoodprovider.getcountInStock(intvalue);
-                        }
-                      },
-                      decoration: InputDecoration(
-                        hintText: "CountInStock",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
                     SizedBox(height: 15),
-                    TextField(
-                      onChanged: (value) =>
-                          addfoodprovider.getdescription(value),
-                      decoration: InputDecoration(
-                        hintText: "Description",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 40),
                     ElevatedButton(
                       onPressed: () => addfoodprovider.addfood(context),
                       style: ElevatedButton.styleFrom(

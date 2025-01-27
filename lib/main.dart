@@ -8,6 +8,7 @@ import 'package:resturent_app/controller/login_provider.dart';
 import 'package:resturent_app/controller/register_provider.dart';
 import 'package:resturent_app/controller/users_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:resturent_app/pages/admin/dashboard.dart';
 import 'package:resturent_app/pages/users/botom_navigation.dart';
 
 void main() async {
@@ -17,7 +18,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=>FruitProvider()),
+        ChangeNotifierProvider(create: (_) => FruitProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => FoodProvider()),
         ChangeNotifierProvider(create: (_) => UsersProvider()),
@@ -27,7 +28,7 @@ void main() async {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: BotomNavigationScreen(),
+        home: Dashboard(),
       ),
     ),
   );
