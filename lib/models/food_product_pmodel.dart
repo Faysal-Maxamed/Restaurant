@@ -1,4 +1,5 @@
 class FoodProductModel {
+  String id;
   String name;
   String category;
   String image;
@@ -7,6 +8,7 @@ class FoodProductModel {
   double oldPrice;
   int countInStock;
   FoodProductModel({
+    required this.id,
     required this.name,
     required this.category,
     required this.image,
@@ -17,6 +19,7 @@ class FoodProductModel {
   });
   factory FoodProductModel.fromJson(Map<String, dynamic> json) {
     return FoodProductModel(
+      id: json['_id'],
       name: json['name'],
       category: json['category'],
       image: json['image'],
@@ -28,6 +31,7 @@ class FoodProductModel {
   }
   Map<String, dynamic> toJson() {
     return {
+      '_id':id,
       'name': name,
       'category': category,
       'image': image,

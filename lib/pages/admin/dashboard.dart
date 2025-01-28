@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/login_provider.dart';
-import 'package:resturent_app/pages/admin/adminfoodpage.dart';
+import 'package:resturent_app/pages/admin/Food/adminfoodpage.dart';
+import 'package:resturent_app/pages/admin/fruits/admin_fruits.dart';
 import 'package:resturent_app/pages/admin/users_screen.dart';
 import 'package:resturent_app/pages/users/profile.dart';
 
@@ -39,7 +40,7 @@ class _Dashboard extends State<Dashboard> {
                   )),
                   Center(
                     child: Text(
-                      "Hi Admin ${login!.user!.name!}👋",
+                      "Hi Admin ${login.user!.name!}👋",
                       style: GoogleFonts.poppins(
                         fontSize: 20,
                       ),
@@ -56,12 +57,40 @@ class _Dashboard extends State<Dashboard> {
                       ),
                     ),
                     child: Text(
-                      "Product",
+                      "Foods",
                       style: GoogleFonts.poppins(
                         fontSize: 22,
                       ),
                     ),
                   ),
+                  TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AdminFruitsScreen(),
+                      ),
+                    ),
+                    child: Text(
+                      "Fruits",
+                      style: GoogleFonts.poppins(
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                  // TextButton(
+                  //   onPressed: () => Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (_) => AdminFruitsScreen(),
+                  //     ),
+                  //   ),
+                  //   child: Text(
+                  //     "Fruits",
+                  //     style: GoogleFonts.poppins(
+                  //       fontSize: 22,
+                  //     ),
+                  //   ),
+                  // ),
                   TextButton(
                     onPressed: () => Navigator.push(
                       context,

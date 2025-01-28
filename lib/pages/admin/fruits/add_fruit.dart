@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/food_provider.dart';
+import 'package:resturent_app/controller/fruit_provider.dart';
 
-class UpdateFood extends StatelessWidget {
-  UpdateFood({super.key});
+class AddFruitScreen extends StatefulWidget {
+  AddFruitScreen({super.key});
 
   @override
+  State<AddFruitScreen> createState() => _AddFruitScreenState();
+}
+
+class _AddFruitScreenState extends State<AddFruitScreen> {
+  @override
   Widget build(BuildContext context) {
-    return Consumer<FoodProvider>(builder: (context, FoodProvider, _) {
+    return Consumer<FruitProvider>(builder: (context, addfruit, _) {
       return Scaffold(
         backgroundColor: backgrounclr,
         appBar: AppBar(
-          title: Text("Update product"),
+          title: Text("Add product"),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -23,15 +30,7 @@ class UpdateFood extends StatelessWidget {
               child: Column(
                 children: [
                   TextField(
-                    onChanged: (value) => FoodProvider.getImage,
-                    decoration: InputDecoration(
-                      hintText: "enter Image",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  TextField(
-                    onChanged: (value) => FoodProvider.getname(value),
+                    onChanged: (value) => addfruit.getname(value),
                     decoration: InputDecoration(
                       hintText: "Enter Name of product",
                       border: OutlineInputBorder(),
@@ -39,9 +38,35 @@ class UpdateFood extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   TextField(
-                    onChanged: (value) => FoodProvider.getcategory(value),
+                    onChanged: (value) => addfruit.getcategory(value),
                     decoration: InputDecoration(
                       hintText: "Category Name",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  GestureDetector(
+                    onTap: addfruit.getImage,
+                    child: addfruit.image == null
+                        ? Container(
+                            height: 150,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey)),
+                            child: Icon(Icons.photo, size: 50),
+                          )
+                        : Image.file(
+                            addfruit.image!,
+                            height: 150,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                  SizedBox(height: 15),
+                  TextField(
+                    onChanged: (value) => addfruit.getdescription(value),
+                    decoration: InputDecoration(
+                      hintText: "Description",
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -50,7 +75,22 @@ class UpdateFood extends StatelessWidget {
                     onChanged: (value) {
                       int? intvalue = int.tryParse(value);
                       if (intvalue != null) {
-                        FoodProvider.getprice(intvalue);
+                        addfruit.getcountInStock(intvalue);
+                      }
+                    },
+                    decoration: InputDecoration(
+                      hintText: "CountInStock",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  TextField(
+                    onChanged: (value) {
+                      int? intvalue = int.tryParse(value);
+                      if (intvalue != null) {
+                        addfruit.getprice(intvalue);
                       }
                     },
                     decoration: InputDecoration(
@@ -63,7 +103,7 @@ class UpdateFood extends StatelessWidget {
                     onChanged: (value) {
                       int? intvalue = int.tryParse(value);
                       if (intvalue != null) {
-                        FoodProvider.getoldPrice(intvalue);
+                        addfruit.getoldPrice(intvalue);
                       }
                     },
                     decoration: InputDecoration(
@@ -72,29 +112,9 @@ class UpdateFood extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 15),
-                  TextField(
-                    onChanged: (value) {
-                      int? intvalue = int.tryParse(value);
-                      if (intvalue != null) {
-                        FoodProvider.getcountInStock(intvalue);
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: "CountInStock",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
                   SizedBox(height: 15),
-                  TextField(
-                    onChanged: (value) => FoodProvider.getdescription(value),
-                    decoration: InputDecoration(
-                      hintText: "Description",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(height: 40),
                   ElevatedButton(
-                    onPressed: () => FoodProvider.update(context),
+                    onPressed: () => addfruit.addfruit(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: btnclr,
                       shape: RoundedRectangleBorder(
@@ -102,7 +122,7 @@ class UpdateFood extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      "Update",
+                      "Save",
                       style: GoogleFonts.poppins(
                           fontSize: 20, color: Colors.white),
                     ),

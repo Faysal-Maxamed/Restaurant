@@ -24,7 +24,7 @@ class UsersScreen extends StatelessWidget {
                 return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      var snap = snapshot!.data![index];
+                      var snap = snapshot.data![index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Card(

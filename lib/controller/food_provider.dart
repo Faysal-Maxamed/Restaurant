@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/models/food_product_pmodel.dart';
-import 'package:resturent_app/pages/admin/adminfoodpage.dart';
+import 'package:resturent_app/pages/admin/Food/adminfoodpage.dart';
 
 class FoodProvider extends ChangeNotifier {
   String? _id;
@@ -83,11 +83,11 @@ class FoodProvider extends ChangeNotifier {
       final cloudinary =
           CloudinaryPublic('dsqdn5uib', 'ml_default', cache: false);
 
-          CloudinaryResponse response = await cloudinary.uploadFile(
-          CloudinaryFile.fromFile(_image!.path,
-              resourceType: CloudinaryResourceType.Image),
-        );
-        imgUrl = response.secureUrl;
+      CloudinaryResponse response = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(_image!.path,
+            resourceType: CloudinaryResourceType.Image),
+      );
+      imgUrl = response.secureUrl;
 
       if (imgUrl.isNotEmpty) {
         var data = {
@@ -163,43 +163,62 @@ class FoodProvider extends ChangeNotifier {
 
 //  kan waa fuctionka nooqabanaayo  inaa xogta badalno ama update kusiibino
 
-  update(BuildContext context) async {
-    var date = <String, dynamic>{
-      "name": name,
-      "category": category,
-      "image": image,
-      "description": description,
-      "price": price,
-      "countInStock": countInStock,
-      "oldPrice": oldPrice,
-      "counInStock": countInStock,
-    };
-
+  update(BuildContext context, String id) async {
+    isloading = true;
+    notifyListeners();
     try {
-      var response = await http.put(
-        Uri.parse(
-            "http://192.168.18.8:5000/api/foodproduct/679206d7debefc4899572aa7"),
-        body: jsonEncode(date),
-        headers: {"Content-Type": "application/json"},
-      );
+      String imgurl = '';
+      final cloudinary =
+          CloudinaryPublic('dsqdn5uib', 'ml_default', cache: false);
 
-      if (response.statusCode == 200) {
-        var decodedate = jsonDecode(response.body);
-        SnackBar(content: Text("succsefully"));
-        Navigator.pop(context);
+      CloudinaryResponse responseurl = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(image!.path,
+            resourceType: CloudinaryResourceType.Image),
+      );
+      imgurl = responseurl.secureUrl;
+
+      if (imgurl.isNotEmpty) {
+        var date = <String, dynamic>{
+          "name": name,
+          "category": category,
+          "image": imgurl,
+          "description": description,
+          "price": price,
+          "countInStock": countInStock,
+          "oldPrice": oldPrice,
+          "counInStock": countInStock,
+        };
+        var response = await http.put(
+          Uri.parse("http://192.168.18.8:5000/api/foodproduct/$id"),
+          body: jsonEncode(date),
+          headers: {"Content-Type": "application/json"},
+        );
+
+        if (response.statusCode == 200) {
+          SnackBar(content: Text("succsefully"));
+          Navigator.pop(context);
+        } else {
+          print(response.body);
+        }
       } else {
-        print(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Failed do update image"),
+          ),
+        );
       }
     } catch (e) {
       print(e);
     }
+    isloading = false;
+    notifyListeners();
   }
 
   //  kan waa fuctionka nooqabanaayo inaa product delte ku sameeno
 
-  delte() async {
+  delte(String id) async {
     var response = await http.delete(
-      Uri.parse(endpoint + "foodproduct/679206d7debefc4899572aa7"),
+      Uri.parse(endpoint + "foodproduct/$id"),
       headers: {"Content-Type": "application/json"},
     );
 

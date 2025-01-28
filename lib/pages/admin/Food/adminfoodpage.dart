@@ -4,14 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/food_provider.dart';
 import 'package:resturent_app/models/food_product_pmodel.dart';
-import 'package:resturent_app/pages/admin/addfood.dart';
-import 'package:resturent_app/pages/admin/update_food.dart';
+import 'package:resturent_app/pages/admin/Food/addfood.dart';
+import 'package:resturent_app/pages/admin/Food/update_food.dart';
 import 'package:resturent_app/pages/users/details_page.dart';
 
 class Adminfoodpage extends StatelessWidget {
-  const Adminfoodpage({super.key});
+  Adminfoodpage({super.key});
 
   @override
+  FoodProductModel? Food;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -42,7 +43,7 @@ class Adminfoodpage extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => DetailsPage(
-                                          imageurl: snapshot.data!.last!.image,
+                                          imageurl: snapshot.data![index].image,
                                           title: snapshot.data![index].name,
                                           discription:
                                               snapshot.data![index].description,
@@ -104,8 +105,7 @@ class Adminfoodpage extends StatelessWidget {
                                                       color: btnclr),
                                                 ),
                                                 Text(
-                                                  snapshot!
-                                                      .data![index].oldPrice
+                                                  snapshot.data![index].oldPrice
                                                       .toString(),
                                                   style: GoogleFonts.dmSans(
                                                     color: Colors.black,
@@ -121,10 +121,35 @@ class Adminfoodpage extends StatelessWidget {
                                                       .spaceBetween,
                                               children: [
                                                 IconButton(
-                                                  onPressed: () {
-                                                    context
-                                                        .read<FoodProvider>()
-                                                        .delte();
+                                                  onPressed: () async {
+                                                    final confirm =
+                                                        await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (context) =>
+                                                                    AlertDialog(
+                                                                      content: Text(
+                                                                          "DDo you want to delete this product?"),
+                                                                      title: Text(
+                                                                          "Delete"),
+                                                                      actions: [
+                                                                        TextButton(
+                                                                          onPressed: () =>
+                                                                              Navigator.pop(context),
+                                                                          child:
+                                                                              Text("No"),
+                                                                        ),
+                                                                        TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            context.read<FoodProvider>().delte(snapshot.data![index].id);
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                              Text("Yes"),
+                                                                        ),
+                                                                      ],
+                                                                    ));
                                                   },
                                                   style: TextButton.styleFrom(
                                                     backgroundColor: Colors.red,
@@ -144,10 +169,15 @@ class Adminfoodpage extends StatelessWidget {
                                                 IconButton(
                                                   onPressed: () {
                                                     Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (_) =>
-                                                                UpdateFood()));
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            UpdateFood(
+                                                          id: snapshot
+                                                              .data![index].id,
+                                                        ),
+                                                      ),
+                                                    );
                                                   },
                                                   style: TextButton.styleFrom(
                                                     backgroundColor:

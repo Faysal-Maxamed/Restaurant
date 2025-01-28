@@ -1,31 +1,25 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/controller/food_provider.dart';
+import 'package:resturent_app/models/food_product_pmodel.dart';
+import 'package:resturent_app/models/login_model.dart';
 
-class Addfood extends StatefulWidget {
-  Addfood({super.key});
-
+class UpdateFood extends StatelessWidget {
+  UpdateFood({super.key, required this.id});
+  final id;
   @override
-  State<Addfood> createState() => _AddfoodState();
-}
-
-class _AddfoodState extends State<Addfood> {
-  @override
+  FoodProductModel? Food;
   Widget build(BuildContext context) {
-    var addfoodprovider = context.read<FoodProvider>();
-    return Consumer<FoodProvider>(builder: (context, addfood, _) {
+    return Consumer<FoodProvider>(builder: (context, FoodProvider, _) {
       return ModalProgressHUD(
-        inAsyncCall: addfood.isloading,
+        inAsyncCall: FoodProvider.isloading,
         child: Scaffold(
           backgroundColor: backgrounclr,
           appBar: AppBar(
-            title: Text("Add product"),
+            title: Text("Update product"),
             centerTitle: true,
           ),
           body: SafeArea(
@@ -34,8 +28,9 @@ class _AddfoodState extends State<Addfood> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    SizedBox(height: 15),
                     TextField(
-                      onChanged: (value) => addfoodprovider.getname(value),
+                      onChanged: (value) => FoodProvider.getname(value),
                       decoration: InputDecoration(
                         hintText: "Enter Name of product",
                         border: OutlineInputBorder(),
@@ -43,7 +38,7 @@ class _AddfoodState extends State<Addfood> {
                     ),
                     SizedBox(height: 15),
                     TextField(
-                      onChanged: (value) => addfoodprovider.getcategory(value),
+                      onChanged: (value) => FoodProvider.getcategory(value),
                       decoration: InputDecoration(
                         hintText: "Category Name",
                         border: OutlineInputBorder(),
@@ -51,43 +46,22 @@ class _AddfoodState extends State<Addfood> {
                     ),
                     SizedBox(height: 15),
                     GestureDetector(
-                      onTap: addfood.getImage,
-                      child: addfood.image == null
+                      onTap: FoodProvider.getImage,
+                      child: FoodProvider.image == null
                           ? Container(
                               height: 150,
                               width: double.infinity,
+                              child: Icon(Icons.image),
                               decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey)),
-                              child: Icon(Icons.photo, size: 50),
+                                border: Border.all(color: Colors.grey),
+                              ),
                             )
                           : Image.file(
-                              addfood.image!,
+                              FoodProvider.image!,
                               height: 150,
                               width: double.infinity,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fitWidth,
                             ),
-                    ),
-                    SizedBox(height: 15),
-                    TextField(
-                      onChanged: (value) =>
-                          addfoodprovider.getdescription(value),
-                      decoration: InputDecoration(
-                        hintText: "Description",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    TextField(
-                      onChanged: (value) {
-                        int? intvalue = int.tryParse(value);
-                        if (intvalue != null) {
-                          addfoodprovider.getcountInStock(intvalue);
-                        }
-                      },
-                      decoration: InputDecoration(
-                        hintText: "CountInStock",
-                        border: OutlineInputBorder(),
-                      ),
                     ),
                     SizedBox(
                       height: 15,
@@ -96,7 +70,7 @@ class _AddfoodState extends State<Addfood> {
                       onChanged: (value) {
                         int? intvalue = int.tryParse(value);
                         if (intvalue != null) {
-                          addfoodprovider.getprice(intvalue);
+                          FoodProvider.getprice(intvalue);
                         }
                       },
                       decoration: InputDecoration(
@@ -109,7 +83,7 @@ class _AddfoodState extends State<Addfood> {
                       onChanged: (value) {
                         int? intvalue = int.tryParse(value);
                         if (intvalue != null) {
-                          addfoodprovider.getoldPrice(intvalue);
+                          FoodProvider.getoldPrice(intvalue);
                         }
                       },
                       decoration: InputDecoration(
@@ -118,9 +92,29 @@ class _AddfoodState extends State<Addfood> {
                       ),
                     ),
                     SizedBox(height: 15),
+                    TextField(
+                      onChanged: (value) {
+                        int? intvalue = int.tryParse(value);
+                        if (intvalue != null) {
+                          FoodProvider.getcountInStock(intvalue);
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: "CountInStock",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                     SizedBox(height: 15),
+                    TextField(
+                      onChanged: (value) => FoodProvider.getdescription(value),
+                      decoration: InputDecoration(
+                        hintText: "Description",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 40),
                     ElevatedButton(
-                      onPressed: () => addfoodprovider.addFood(context),
+                      onPressed: () => FoodProvider.update(context, id),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: btnclr,
                         shape: RoundedRectangleBorder(
@@ -128,7 +122,7 @@ class _AddfoodState extends State<Addfood> {
                         ),
                       ),
                       child: Text(
-                        "Save",
+                        "Update",
                         style: GoogleFonts.poppins(
                             fontSize: 20, color: Colors.white),
                       ),
