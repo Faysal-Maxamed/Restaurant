@@ -56,8 +56,9 @@ class _AddfoodState extends State<Addfood> {
                           ? Container(
                               height: 150,
                               width: double.infinity,
-                              color: Colors.grey[200],
-                              child: Icon(Icons.add_a_photo, size: 50),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey)),
+                              child: Icon(Icons.photo, size: 50),
                             )
                           : Image.file(
                               addfood.image!,
@@ -119,7 +120,7 @@ class _AddfoodState extends State<Addfood> {
                     SizedBox(height: 15),
                     SizedBox(height: 15),
                     ElevatedButton(
-                      onPressed: () => addfoodprovider.addfood(context),
+                      onPressed: () => addfoodprovider.addFood(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: btnclr,
                         shape: RoundedRectangleBorder(

@@ -64,58 +64,78 @@ class FoodProvider extends ChangeNotifier {
 
   void getImage() async {
     try {
-      var PickImage = await ImagePicker().pickImage(source: ImageSource.camera);
-      if (PickImage != null) {
-        _image = File(PickImage.path);
+      var pickedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        _image = File(pickedImage.path);
+        notifyListeners();
+      } else {
+        print("No image selected");
       }
     } catch (e) {
-      print(e);
+      print("Error picking image: $e");
     }
   }
 
-  //  kan waa fuctionka noogu soo daraayo product  cusub
-
-  addfood(BuildContext context) async {
+  Future<void> addFood(BuildContext context) async {
     try {
-      String imgurl = '';
+      String imgUrl = '';
       final cloudinary =
           CloudinaryPublic('dsqdn5uib', 'ml_default', cache: false);
-      CloudinaryResponse responseurl = await cloudinary.uploadFile(
-        CloudinaryFile.fromFile(image!.path,
-            resourceType: CloudinaryResourceType.Image),
-      );
-      imgurl = responseurl.secureUrl;
 
-      if (imgurl.isNotEmpty) {
-        var data = {
-          "name": _name!,
-          "category": _category!,
-          "image": imgurl,
-          "description": _description!,
-          "countInStock": _countInStock!,
-          "price": _price!,
-          "oldPrice": _oldPrice!,
-        };
-        var response = await http.post(
-          Uri.parse(endpoint + "foodproduct"),
-          body: jsonEncode(data),
-          headers: {"Content-Type": "application/json"},
+          CloudinaryResponse response = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(_image!.path,
+              resourceType: CloudinaryResourceType.Image),
         );
+        imgUrl = response.secureUrl;
 
-        if (response.statusCode == 201) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => Adminfoodpage()),
+      if (imgUrl.isNotEmpty) {
+        var data = {
+          "name": _name,
+          "category": _category,
+          "image": imgUrl,
+          "description": _description,
+          "countInStock": _countInStock,
+          "price": _price,
+          "oldPrice": _oldPrice,
+        };
+
+        try {
+          var response = await http.post(
+            Uri.parse(endpoint + "foodproduct"),
+            body: jsonEncode(data),
+            headers: {"Content-Type": "application/json"},
           );
-          SnackBar(content: Text("product created"));
+
+          if (response.statusCode == 201) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Product created successfully")),
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => Adminfoodpage()),
+            );
+          } else {
+            print("Failed to create product: ${response.body}");
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Failed to create product")),
+            );
+          }
+        } catch (e) {
+          print("HTTP error: $e");
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Error creating product: $e")),
+          );
         }
       } else {
-        SnackBar(content: Text("No Image found"));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Image URL is empty")),
+        );
       }
     } catch (e) {
-      print("Err :${e.toString()}");
+      print("Unexpected error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${e.toString()}")),
+        SnackBar(content: Text("Error: $e")),
       );
     }
   }

@@ -64,16 +64,16 @@ class Adminfoodpage extends StatelessWidget {
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
                                         height: 15,
                                       ),
-                                      Center(
-                                        child: Image.network(
-                                          snapshot.data![index].image,
-                                          width: 70,
-                                        ),
+                                      Image.network(
+                                        snapshot.data![index].image,
+                                        height: 70,
+                                        width: 150,
+                                        fit: BoxFit.fitWidth,
                                       ),
                                       SizedBox(
                                         height: 7,
