@@ -1,16 +1,33 @@
-# resturent_app
+# 🍽️ Restaurant App
 
-A new Flutter project.
+A modern Flutter application for managing restaurant food products, user authentication, and shopping cart functionality.
 
-## Getting Started
+## 📂 Project Structure
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```plaintext
+lib
+│── constant
+│   └── constant.dart
+│
+│── controller
+│   ├── cart_provider.dart
+│   ├── food_provider.dart
+│   ├── fruit_provider.dart
+│   ├── login_provider.dart
+│   ├── register_provider.dart
+│   ├── users_provider.dart
+│
+│── models
+│   ├── food_product_model.dart
+│   ├── login_model.dart
+│
+│── pages
+│   ├── admin
+│   ├── users
+│
+│── widgets
+│   ├── discount_widget.dart
+│   ├── home_category.dart
+│   ├── popular_recipes_widget.dart
+│
+└── main.dart
