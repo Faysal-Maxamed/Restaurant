@@ -7,7 +7,7 @@ import 'package:resturent_app/controller/login_provider.dart';
 import 'package:resturent_app/controller/register_provider.dart';
 import 'package:resturent_app/controller/users_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:resturent_app/pages/admin/dashboard.dart';
+import 'package:resturent_app/pages/users/zoom_drawer_screen.dart';
 
 void main() async {
   await GetStorage.init();
@@ -26,7 +26,7 @@ void main() async {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Dashboard(),
+        home: ZoomDrawerWrapper(),
       ),
     ),
   );

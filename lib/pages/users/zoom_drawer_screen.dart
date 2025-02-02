@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:resturent_app/controller/login_provider.dart';
+import 'package:resturent_app/pages/admin/dashboard.dart';
 import 'package:resturent_app/pages/users/home.dart';
-import 'package:resturent_app/pages/users/menu_screen.dart';
+import 'menu_screen.dart'; // Import your custom MenuScreen
 
-class ZoomDrawerScreen extends StatelessWidget {
-  const ZoomDrawerScreen({super.key});
-
+class ZoomDrawerWrapper extends StatelessWidget {
+  ZoomDrawerWrapper({super.key});
+  LoginProvider? login;
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
-      menuScreen: const MenuScreen(),
-      mainScreen: Builder(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: const Text('Home Screen'),
-          ),
-          body: HomeScreen(),
-        ),
-      ),
       style: DrawerStyle.defaultStyle,
-      borderRadius: 24.0,
+      menuScreen: MenuScreen(),
+      mainScreen: HomeScreen(), 
+      borderRadius: 30.0,
       showShadow: true,
-      angle: -12.0,
+      angle: -5.0,
       slideWidth: MediaQuery.of(context).size.width * 0.65,
       openCurve: Curves.fastOutSlowIn,
-      closeCurve: Curves.fastOutSlowIn,
+      closeCurve: Curves.bounceIn,
     );
   }
 }

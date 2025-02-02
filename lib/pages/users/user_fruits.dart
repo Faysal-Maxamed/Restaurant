@@ -94,7 +94,7 @@ class UserFruits extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => DetailsPage(
-                                        imageurl: snapshot.data![index]!.image,
+                                        imageurl: "images/1.png",
                                         title: snapshot.data![index].name,
                                         discription:
                                             snapshot.data![index].description,
@@ -125,7 +125,9 @@ class UserFruits extends StatelessWidget {
                                               topRight: Radius.circular(10)),
                                           child: Image.network(
                                             snapshot.data![index].image!,
-                                            width: 80,
+                                            width: double.infinity,
+                                            fit: BoxFit.fitWidth,
+                                            height: 80,
                                           ),
                                         ),
                                         Container(
@@ -161,7 +163,7 @@ class UserFruits extends StatelessWidget {
                                                     onPressed: () {
                                                       context
                                                           .read<CartProvider>()
-                                                          .addItem(
+                                                          .toggleItem(
                                                             snapshot
                                                                 .data![index]
                                                                 .name,

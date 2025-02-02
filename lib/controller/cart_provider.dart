@@ -8,18 +8,13 @@ class CartProvider extends ChangeNotifier {
     return _items.fold(0, (sum, item) => sum + (item.price * item.quantity));
   }
 
-  void addItem(String id, String name, double price, String image) {
+  void toggleItem(String id, String name, double price, String image) {
     final existingIndex = _items.indexWhere((cartItem) => cartItem.id == id);
     if (existingIndex != -1) {
-      _items[existingIndex].quantity++;
+      _items.removeAt(existingIndex);
     } else {
       _items.add(CartItem(id: id, name: name, price: price, image: image));
     }
-    notifyListeners();
-  }
-
-  void removeItem(String id) {
-    _items.removeWhere((item) => item.id == id);
     notifyListeners();
   }
 
@@ -27,6 +22,12 @@ class CartProvider extends ChangeNotifier {
     _items.clear();
     notifyListeners();
   }
+
+  void removeItem(String id) {
+  _items.removeWhere((item) => item.id == id);
+  notifyListeners();
+}
+
 
   void increment(String id) {
     final index = _items.indexWhere((item) => item.id == id);
@@ -42,6 +43,10 @@ class CartProvider extends ChangeNotifier {
       _items[index].quantity--;
       notifyListeners();
     }
+  }
+
+  bool containsItem(String itemName) {
+    return items.any((item) => item.name == itemName);
   }
 }
 

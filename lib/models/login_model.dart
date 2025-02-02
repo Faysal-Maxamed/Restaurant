@@ -32,7 +32,8 @@ class LoginModel {
     phone = json['phone'];
     address = json['address'];
     cart = json['cart'] != null ? List<dynamic>.from(json['cart']) : null;
-    wishlist = json['wishlist'] != null ? List<dynamic>.from(json['wishlist']) : null;
+    wishlist =
+        json['wishlist'] != null ? List<dynamic>.from(json['wishlist']) : null;
     iV = json['__v'];
   }
 

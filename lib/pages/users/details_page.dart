@@ -63,7 +63,9 @@ class DetailsPage extends StatelessWidget {
                     ),
                     Image.network(
                       imageurl,
-                      width: 150,
+                      width: 250,
+                      fit: BoxFit.fitWidth,
+                      height: 150,
                     )
                   ],
                 ),
@@ -132,22 +134,6 @@ class DetailsPage extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           color: Color(0xff748189),
-                        ),
-                      ),
-                      Spacer(),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: btnclr,
-                            minimumSize: Size(double.infinity, 70),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        onPressed: () {},
-                        child: Text(
-                          "Add Cart",
-                          style: GoogleFonts.poppins(
-                            fontSize: 20,
-                          ),
                         ),
                       ),
                       SizedBox(

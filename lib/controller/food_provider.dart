@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/models/food_product_pmodel.dart';
-import 'package:resturent_app/pages/admin/Food/adminfoodpage.dart';
 
 class FoodProvider extends ChangeNotifier {
   String? _id;
@@ -62,13 +62,32 @@ class FoodProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getImage() async {
+  //  void getImage() async {
+  //   try {
+  //     var pickedImage =
+  //         await ImagePicker().pickImage(source: ImageSource.gallery);
+  //     if (pickedImage != null) {
+  //       _image = File(pickedImage.path);
+  //       notifyListeners();
+  //     } else {
+  //       print("No image selected");
+  //     }
+  //   } catch (e) {
+  //     print("Error picking image: $e");
+  //   }
+  // }
+
+  Future<void> getImage() async {
     try {
-      var pickedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (pickedImage != null) {
-        _image = File(pickedImage.path);
-        notifyListeners();
+      FilePickerResult? pickedImage = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false, // Ensures only one file is selected
+      );
+
+      if (pickedImage != null && pickedImage.files.single.path != null) {
+        _image = File(pickedImage.files.single.path!);
+        print("Image selected: ${_image!.path}");
+        // Call notifyListeners() if using Provider or state management
       } else {
         print("No image selected");
       }
@@ -111,10 +130,7 @@ class FoodProvider extends ChangeNotifier {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Product created successfully")),
             );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => Adminfoodpage()),
-            );
+            Navigator.pop(context);
           } else {
             print("Failed to create product: ${response.body}");
             ScaffoldMessenger.of(context).showSnackBar(
@@ -138,6 +154,7 @@ class FoodProvider extends ChangeNotifier {
         SnackBar(content: Text("Error: $e")),
       );
     }
+    notifyListeners();
   }
 
   //  kan waa fuctionka nooqabanaayo  inaa kasoo aqrisano backend amd  database
@@ -189,7 +206,7 @@ class FoodProvider extends ChangeNotifier {
           "counInStock": countInStock,
         };
         var response = await http.put(
-          Uri.parse("http://192.168.18.8:5000/api/foodproduct/$id"),
+          Uri.parse(endpoint + "foodproduct/$id"),
           body: jsonEncode(date),
           headers: {"Content-Type": "application/json"},
         );

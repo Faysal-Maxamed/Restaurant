@@ -87,8 +87,7 @@ class AdminFruitsScreen extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => DetailsPage(
-                                            imageurl:
-                                                snapshot.data![index].image,
+                                            imageurl: "images/1.png",
                                             title: snapshot.data![index].name,
                                             discription: snapshot
                                                 .data![index].description,
@@ -119,7 +118,7 @@ class AdminFruitsScreen extends StatelessWidget {
                                         Image.network(
                                           snapshot.data![index].image,
                                           height: 70,
-                                          width: 150,
+                                          width: 100,
                                           fit: BoxFit.fitWidth,
                                         ),
                                         SizedBox(

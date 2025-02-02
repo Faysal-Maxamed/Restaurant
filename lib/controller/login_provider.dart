@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:resturent_app/constant/constant.dart';
 import 'package:resturent_app/models/login_model.dart';
 import 'package:resturent_app/pages/admin/dashboard.dart';
-import 'package:resturent_app/pages/users/home.dart';
+import 'package:resturent_app/pages/users/botom_navigation.dart';
+import 'package:resturent_app/pages/users/zoom_drawer_screen.dart';
 
 class LoginProvider extends ChangeNotifier {
   String? _email;
@@ -64,7 +65,7 @@ class LoginProvider extends ChangeNotifier {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => HomeScreen(),
+              builder: (_) => ZoomDrawerWrapper(),
             ),
           );
         }

@@ -40,20 +40,18 @@ class CartScreen extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
                         itemCount: cart.items.length,
                         itemBuilder: (context, index) {
                           final item = cart.items[index];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 5),
                             child: Card(
                               elevation: 10,
                               color: btnclr,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 10,
-                                ),
+                                    horizontal: 10, vertical: 10),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment:
@@ -65,8 +63,8 @@ class CartScreen extends StatelessWidget {
                                           ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(70),
-                                            child: Image.asset(
-                                              "images/1.png",
+                                            child: Image.network(
+                                              item.image, // Use network image from item
                                               width: 70,
                                               height: 70,
                                               fit: BoxFit.cover,
@@ -110,7 +108,9 @@ class CartScreen extends StatelessWidget {
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
-                                            cart.removeItem(item.id);
+                                            context
+                                                .read<CartProvider>()
+                                                .removeItem(item.id);
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.red,
@@ -183,7 +183,7 @@ class CartScreen extends StatelessWidget {
                                 backgroundColor: btnclr,
                               ),
                               child: Text(
-                                "Check Out",
+                                "Buy",
                                 style: GoogleFonts.poppins(
                                   fontSize: 20,
                                   color: Colors.black,

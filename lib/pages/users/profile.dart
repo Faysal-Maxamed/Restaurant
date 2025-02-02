@@ -15,121 +15,126 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: backgrounclr,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      height: 45,
-                      width: 45,
-                      decoration: BoxDecoration(
-                        color: backgrounclr,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.15),
-                            spreadRadius: 3,
-                            blurRadius: 5,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: btnclr,
-                      ),
-                    )
-                  ],
-                ),
-                Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage("images/profile.png"),
+                // Back Button
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    height: 45,
+                    width: 45,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: btnclr,
+                    ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
+                SizedBox(height: 20),
+
+                // Profile Picture
+                Center(
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundColor: Colors.blueAccent.withOpacity(0.1),
+                    child: Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Colors.blueAccent,
+                    ),
+                  ),
                 ),
+                SizedBox(height: 20),
+
+                // Personal Info Title
                 Text(
                   "Personal Info",
                   style: GoogleFonts.poppins(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
                   ),
                 ),
-                Spacer(),
-                RowWidget(
-                  tit1: "Your Name",
-                  tit2: login.user!.name,
+                SizedBox(height: 20),
+
+                // User Details
+                Expanded(
+                  child: ListView(
+                    children: [
+                      _buildInfoRow("Your Name", login.user!.name ?? "N/A"),
+                      SizedBox(height: 15),
+                      _buildInfoRow("Your Email", login.user!.email ?? "N/A"),
+                      SizedBox(height: 15),
+                      _buildInfoRow(
+                          "Your Address", login.user!.address ?? "N/A"),
+                      SizedBox(height: 15),
+                      _buildInfoRow(
+                          "Your Role", login.user!.isAdmin! ? "Admin" : "User"),
+                      SizedBox(height: 15),
+                      _buildInfoRow(
+                          "Your Phone", login.user!.phone.toString() ?? "N/A"),
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                RowWidget(
-                  tit1: "Your Email",
-                  tit2: login.user!.email,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                RowWidget(
-                  tit1: "Your Address",
-                  tit2: login.user!.phone.toString(),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                RowWidget(
-                  tit1: "Your Role",
-                  tit2: login.user!.isAdmin!.toString(),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                RowWidget(
-                  tit1: "Your Phone",
-                  tit2: login.user!.phone.toString(),
-                ),
-                Spacer(),
+
+                // Update Button
                 ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: btnclr,
-                      minimumSize: Size(double.infinity, 60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                  onPressed: () {
+                    // Add update logic here
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: btnclr,
+                    minimumSize: Size(double.infinity, 60),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(
-                      "Update",
-                      style: GoogleFonts.roboto(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    )),
-                SizedBox(
-                  height: 20,
+                  ),
+                  child: Text(
+                    "Update",
+                    style: GoogleFonts.roboto(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
+                SizedBox(height: 15),
+
+                // Exit Button
                 ElevatedButton(
-                    onPressed: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => OnboardingScreen())),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: btnclr,
-                      minimumSize: Size(double.infinity, 60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => OnboardingScreen()),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                    minimumSize: Size(double.infinity, 60),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(
-                      "Exit",
-                      style: GoogleFonts.roboto(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    )),
-                Spacer(),
+                  ),
+                  child: Text(
+                    "Exit",
+                    style: GoogleFonts.roboto(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -137,35 +142,44 @@ class ProfileScreen extends StatelessWidget {
       );
     });
   }
-}
 
-class RowWidget extends StatelessWidget {
-  const RowWidget({
-    super.key,
-    required this.tit1,
-    required this.tit2,
-  });
-  final tit1;
-  final tit2;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          tit1,
-          style: GoogleFonts.poppins(
-            fontSize: 14,
+  // Helper Widget for Info Rows
+  Widget _buildInfoRow(String title, String value) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
           ),
-        ),
-        Text(
-          overflow: TextOverflow.ellipsis,
-          tit2,
-          style: GoogleFonts.poppins(
-            fontSize: 14,
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey[700],
+            ),
           ),
-        ),
-      ],
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueAccent,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
